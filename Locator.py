@@ -4,26 +4,29 @@ class Locator:
         self.data = data
         self.form = page.locator("xpath=.//form")
 
-    def fillForm(self,xpath,data):
+    def fillForm(self,xpath=None,data=None):
+        if data is None:
+            data = {}
         form_locator = self.page.locator(f"xpath={xpath}//form")
         form_field_wrappers = form_locator.locator("xpath=.//div[(.//input or .//textarea or .//select or .//button) and .//label]")
         for form_field_wrapper in form_field_wrappers.all():
             wrapper_label = form_field_wrapper.locator("xpath=.//label").text_content()
-            print(wrapper_label)
-            print(form_field_wrapper.locator("xpath=//input").count())
+            # print(wrapper_label)
+            # print(form_field_wrapper.locator("xpath=//input").count())
             if form_field_wrapper.locator("xpath=//input").count() > 0:
                 input_locator = form_field_wrapper.locator("xpath=//input")
-                self.fillInputorTextarea(data[wrapper_label],"",parent=input_locator)
+                self.fillInputorTextarea(data[wrapper_label], "", input_locator)
             elif form_field_wrapper.locator("xpath=//textarea").count() > 0:
                 input_locator = form_field_wrapper.locator("xpath=.//")
-                self.fillInputorTextarea(data[wrapper_label], input_locator)
+                self.fillInputorTextarea(data[wrapper_label], "", input_locator)
             elif form_field_wrapper.locator("xpath=//select").count() > 0:
                 pass
             elif form_field_wrapper.locator("xpath=//button").count() > 0:
                 pass
 
 
-
+    def checkNodeChildren(self,parent=None):
+        pass
 
     def fillInputorTextarea(self,text,xpath,parent=None):
         if parent is not None:
@@ -115,14 +118,13 @@ class Locator:
                 headers[index] = col.text_content()
                 index+=1
         # print(headers)
-
         rows_locator = table_locator.locator("xpath=.//div[@class='rt-tbody']//div[@role='rowgroup']")
         # print(rows_locator.count())
         table_data = {}
         row_index = 0
         for row in rows_locator.all():
             row_data = {}
-            cells = row.locator("xpath=.//div//div")
+            cells = row.locator("xpath=.//div[@role='gridcell']")
             # print(cells.count())
             cell_index = 0
             for cell in cells.all():
@@ -131,7 +133,7 @@ class Locator:
                 cell_value = cell.text_content()
                 if cell_index==0 and cell_value == "\xa0":
                     return table_data
-                print(cell_value)
+                # print(cell_value)
                 if headers:
                     column_name = headers[cell_index]
                     row_data[column_name] = cell_value
@@ -144,9 +146,9 @@ class Locator:
 
     def clickButton(self,xpath,parent=None):
         if parent:
-           button_locator = parent.locator(f"{xpath}")
+           button_locator = parent.locator(f"xpath={xpath}")
         else:
-            button_locator = self.page.locator(f"{xpath}")
+            button_locator = self.page.locator(f"xpath={xpath}")
         button_locator.click()
 
     def validateRadioButtonFunctionality(self,xpath):
