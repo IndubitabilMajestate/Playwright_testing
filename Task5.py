@@ -1,5 +1,5 @@
 from random import random
-from Locator import Locator
+from Utils import Utils
 from playwright.sync_api import sync_playwright
 
 def Task5():
@@ -12,7 +12,7 @@ def Task5():
         page.locator("xpath=.//h5[contains(text(), 'Elements')]").click()
         page.locator("xpath=.//ul//li//span[contains(text(), 'Check Box')]").click()
 
-        locator = Locator(page)
+        locator = Utils(page)
 
         # Expand and Collapse test
         locator.clickButton(".//button[contains(@title,'Expand')]")

@@ -1,28 +1,25 @@
-from Locator import Locator
+from Utils import Utils,navigateToCategory
 from playwright.sync_api import sync_playwright
 
 def Task3():
     with sync_playwright() as playwright:
-        chromium = playwright.chromium  # or "firefox" or "webkit".
-        browser = chromium.launch(headless=False)
-        page = browser.new_page()
+        page = playwright.chromium.launch(headless=False).new_page()
+        page = navigateToCategory(page,'Buttons')
 
-        page.goto("https://demoqa.com")
-        page.locator("xpath=.//h5[contains(text(), 'Elements')]").click()
-        page.locator("xpath=.//ul//li//span[contains(text(), 'Buttons')]").click()
-
-
-        locator = Locator(page)
+        locator = Utils(page)
         # Double-Click button test
-        if locator.doubleClickButton("//button[text()='Double Click Me']/parent::div") and locator.getPText("//p[contains(text(),'double')]") == "You have done a double click":
+        locator.clickButton("//button[text()='Double Click Me']/parent::div//button",clicktype='dbl')
+        if page.locator("xpath=//p[contains(text(),'double')]").text_content() == "You have done a double click":
             print("Test passed!")
         pass
-        if locator.rightClickButton("//button[text()='Right Click Me']/parent::div") and locator.getPText(
-                "//p[contains(text(),'right')]") == "You have done a right click":
+        # Right-Click button test
+        locator.clickButton("//button[text()='Right Click Me']/parent::div//button",clicktype='right')
+        if page.locator("xpath=//p[contains(text(),'right')]").text_content() == "You have done a right click":
             print("Test passed!")
         pass
-        if locator.clickButton("//button[text()='Click Me']/parent::div") and locator.getPText(
-                "//p[contains(text(),'dynamic')]") == "You have done a dynamic click":
+        # Dynamic-Click button test
+        locator.clickButton("//button[text()='Click Me']/parent::div//button")
+        if page.locator("xpath=//p[contains(text(),'dynamic')]").text_content() == "You have done a dynamic click":
             print("Test passed!")
         pass
 

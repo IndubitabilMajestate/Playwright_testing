@@ -1,19 +1,13 @@
 from random import random
-from Locator import Locator
+from Utils import Utils, navigateToCategory
 from playwright.sync_api import sync_playwright
 
 def Task4():
     with sync_playwright() as playwright:
-        chromium = playwright.chromium  # or "firefox" or "webkit".
-        browser = chromium.launch(headless=False)
-        page = browser.new_page()
+        page = playwright.chromium.launch(headless=False).new_page()
+        page = navigateToCategory(page,'Web Tables')
 
-        page.goto("https://demoqa.com")
-        page.locator("xpath=.//h5[contains(text(), 'Elements')]").click()
-        page.locator("xpath=.//ul//li//span[contains(text(), 'Web Tables')]").click()
-
-
-        locator = Locator(page)
+        locator = Utils(page)
         # Read webtable test
         table = locator.readTableData(".//div[@class='web-tables-wrapper']")
         print(table)
