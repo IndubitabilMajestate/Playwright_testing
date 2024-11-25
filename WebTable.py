@@ -25,7 +25,7 @@ class Webtable:
             # print(cells.count())
             for cell_index, cell in enumerate(cells.all()):
                 cell_value = cell.text_content()
-                if cell_value == "\xa0":
+                if cell_value == "\xa0" or cell_value == " ":
                     if cell_index == 0: return  table_data
                     else: break
                 # print(cell_value)

@@ -3,8 +3,7 @@ from playwright.sync_api import sync_playwright
 
 def Task2():
     with sync_playwright() as playwright:
-        page = playwright.chromium.launch(headless=False).new_page()
-        page = navigateToCategory(page,'Radio Button')
+        page = navigateToCategory(playwright.chromium.launch(headless=False).new_page(),'Elements','Radio Button')
 
         locator = Utils(page)
         # Test Yes Button

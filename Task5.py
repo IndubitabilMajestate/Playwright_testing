@@ -1,17 +1,10 @@
 from random import random
-from Utils import Utils
+from Utils import Utils, navigateToCategory
 from playwright.sync_api import sync_playwright
 
 def Task5():
     with sync_playwright() as playwright:
-        chromium = playwright.chromium  # or "firefox" or "webkit".
-        browser = chromium.launch(headless=False)
-        page = browser.new_page()
-
-        page.goto("https://demoqa.com")
-        page.locator("xpath=.//h5[contains(text(), 'Elements')]").click()
-        page.locator("xpath=.//ul//li//span[contains(text(), 'Check Box')]").click()
-
+        page = navigateToCategory(playwright.chromium.launch(headless=False).new_page(),'Elements','Check Box')
         locator = Utils(page)
 
         # Expand and Collapse test

@@ -1,9 +1,9 @@
 from random import random
 
-def navigateToCategory(page,category):
+def navigateToCategory(page,category,subcategory):
     page.goto("https://demoqa.com")
-    page.locator("xpath=.//h5[contains(text(), 'Elements')]").click()
-    page.locator(f"xpath=.//ul//li//span[contains(text(), '{category}')]").click()
+    page.locator(f"xpath=.//h5[contains(text(), '{category}')]").click()
+    page.locator(f"xpath=.//ul//li//span[contains(text(), '{subcategory}')]").click()
     return page
 
 def generateFieldValue(field_name, field_type:str, field_length:int):
@@ -66,13 +66,13 @@ class Utils:
             print(f"Error: Cannot click button:{button_locator}", e)
         return 0
 
-    def clickButton(self,xpath,parent=None,clicktype=""):
+    def clickButton(self, xpath, parent=None, click_type=""):
         button_locator = parent.locator(f"xpath={xpath}") if parent is not None else self.page.locator(f"xpath={xpath}")
-        if clicktype == "":
+        if click_type == "":
             button_locator.click(force=True)
-        elif clicktype == "dbl":
+        elif click_type == "dbl":
             button_locator.dblclick(force=True)
-        elif clicktype == "right":
+        elif click_type == "right":
             button_locator.click(force=True, button="right")
 
 
