@@ -18,6 +18,7 @@ def Task6():
         }
 
         form_locator = Form(page,data)
+        form_locator.fillForm("",data)
 
 if __name__ == '__main__':
     Task6()

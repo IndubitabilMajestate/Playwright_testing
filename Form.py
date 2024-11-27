@@ -1,3 +1,5 @@
+from Utils import Utils
+
 class Form:
     def __init__(self,page,data = None):
         self.page = page
@@ -17,16 +19,16 @@ class Form:
             if input_locators.count() > 1:
                 for input_locator in input_locators.all():
                     input_type = input_locator.get_attribute("type")
-                    tag_type = input_locator.get_attribute("tagName").lower()
+                    tag_type = (input_locator.get_attribute("tagName")).lower()
                     if input_type == 'text' or tag_type == "textarea":
                         key_name = input_locator.get_attribute('placeholder') if input_locator.get_attribute('placeholder') else (
                             input_locator.get_attribute('value'))
                         self.fillInputorTextarea(data[wrapper_label][key_name], "", input_locator)
-                    elif form_field_wrapper.locator("xpath=//textarea").count() > 0:
-                        input_locator = form_field_wrapper.locator("xpath=.//")
-                        self.fillInputorTextarea(data[wrapper_label], "", input_locator)
-                    elif form_field_wrapper.locator("xpath=//select").count() > 0:
-                        pass
+                    elif input_type == 'radio' or input_type == 'checkbox':
+                        key_name = input_locator.get_attribute('value')
+                        if key_name == self.data['Gender']:
+                            button_locator = Utils(input_locator)
+                            button_locator.clickButton("")
                     elif form_field_wrapper.locator("xpath=//button").count() > 0:
                         pass
             else:
