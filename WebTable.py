@@ -5,23 +5,23 @@ class Webtable:
     def readTableData(self, xpath=None):
         table_locator = self.root.locator(f"xpath={xpath}")
         # print(table_locator)
-        header_row = table_locator.locator("xpath=.//div[@class='rt-thead -header']//div[@role='row']")
+        header_row = table_locator.locator("xpath=.//div[@class='rt-thead -header']//div[@role='row'] | .//thead//tr")
         # print(header_row.count())
         headers = {}
         if header_row.count() > 0:
             index = 0
-            header_columns = header_row.locator("xpath=.//div[@role='columnheader']")
+            header_columns = header_row.locator("xpath=.//div[@role='columnheader'] | .//th")
             # print(header_columns.count())
             for col in header_columns.all():
                 headers[index] = col.text_content()
                 index+=1
         # print(headers)
-        rows_locator = table_locator.locator("xpath=.//div[@class='rt-tbody']//div[@role='rowgroup']")
+        rows_locator = table_locator.locator("xpath=.//div[@class='rt-tbody']//div[@role='rowgroup'] | .//tbody//tr")
         # print(rows_locator.count())
         table_data = {}
         for row_index, row in enumerate(rows_locator.all()):
             row_data = {}
-            cells = row.locator("xpath=.//div[@role='gridcell']")
+            cells = row.locator("xpath=.//div[@role='gridcell'] | .//td")
             # print(cells.count())
             for cell_index, cell in enumerate(cells.all()):
                 cell_value = cell.text_content()
