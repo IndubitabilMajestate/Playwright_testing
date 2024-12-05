@@ -1,4 +1,4 @@
-from Utils import Utils
+from Playwright.Utils import Utils
 
 class Form:
     def __init__(self,page,data = None):
@@ -8,7 +8,7 @@ class Form:
 
     def fillForm(self,xpath=None,data=None):
         if data is None:
-            data = {}
+            data = self.data
         form_locator = self.page.locator(f"xpath={xpath}//form")
         form_field_wrappers = form_locator.locator("xpath=.//div[contains(translate(@id,'W','w'),'wrapper')]")
         for form_field_wrapper in form_field_wrappers.all():
@@ -18,6 +18,8 @@ class Form:
                     labels_count == 1) else 'Gender' if labels_count == 3 else 'Hobbies'
             # print(wrapper_label)
             # print(form_field_wrapper.locator("xpath=//input").count())
+            if wrapper_label not in self.data.keys():
+                continue
             input_locators = form_field_wrapper.locator("xpath=.//input | .//textarea | .//select | .//button")
             if input_locators.count() > 1:
                 for input_locator in input_locators.all():
@@ -62,3 +64,10 @@ class Form:
             # print('Pressed Enter')
             input_locator.press('Enter')
 
+    def getOutputData(self,xpath="", parent=None):
+        output_locator = parent.locator(f"xpath={xpath}//div[@id='output']") if parent is not None else self.page.locator(f"xpath={xpath}//div[@id='output']")
+        data = {}
+        if output_locator.locator("xpath=.//p").count() > 0:
+            for output_data in output_locator.locator("xpath=.//p").all():
+                data[output_data.text_content().split(':')[0].strip()] = output_data.text_content().split(':')[1].strip()
+        return data

@@ -21,12 +21,12 @@ def Task1():
 
         locator = Utils(page, data)
         locator.fillInputLocator()
-        locator.clickButton("xpath=.//button[@id='submit']")
+        locator.clickButton(".//button[@id='submit']")
         if locator.validateResponse():
             print("Test passed!")
         else:
             print("Test failed!")
-
+        print(locator.page.locator('xpath=.//div[@id="output"]').locator('xpath=.//p').count())
         pass
 
 if __name__ == '__main__':
