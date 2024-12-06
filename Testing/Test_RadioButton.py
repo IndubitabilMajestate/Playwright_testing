@@ -25,6 +25,7 @@ class Test_RadioButton:
         output_text = ""
         if not data_setup:
             assert root_locator.page.locator('xpath=.//p//span').count() == 0
+            root_locator.page.reload()
             return
         for button_name in data_setup:
             root_locator.clickButton(f'.//div[contains(label,"{button_name}")]//input')
