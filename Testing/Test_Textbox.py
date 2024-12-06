@@ -1,11 +1,10 @@
 from random import random
 
 import pytest
-from playwright.sync_api import sync_playwright
-from Playwright.Utils import navigateToCategory
 from Playwright.Form import Form
 
 
+@pytest.mark.parametrize('page_setup', ['Text Box'], indirect=True)
 class Test_Textbox:
     cases = [
         {},
@@ -13,18 +12,13 @@ class Test_Textbox:
         {'Full Name': f'Name{round(10 * random())}', 'Email': f'email{round(10 * random())}@test.com'},
         {'Full Name': f'Name{round(10 * random())}', 'Email': f'email{round(10 * random())}@test.com', 'Current Address': f'Street{round(10 * random())}', 'Permanent Address': f'Street{round(10 * random())}'}
     ]
-    @pytest.fixture(scope='class')
-    def page_setup(self, request):
-        with sync_playwright() as playwright:
-            page = navigateToCategory(playwright.chromium.launch(headless=False).new_page(), 'Elements', 'Text Box')
-            yield page
 
     @pytest.fixture(scope='function',params=cases)
-    def data_setup(self,request, page_setup):
+    def data_setup(self,request):
         data = request.param
         yield data
 
-    def test_Textbox(self,page_setup, data_setup):
+    def test_Textbox(self, page_setup, data_setup):
         page = page_setup
         data = data_setup
         form = Form(page,data)
