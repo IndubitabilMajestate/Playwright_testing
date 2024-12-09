@@ -7,4 +7,9 @@ def page_setup(request):
     with sync_playwright() as playwright:
         subcategory = request.param
         page = navigateToCategory(playwright.chromium.launch(headless=False).new_page(), 'Elements', subcategory)
+        page.add_style_tag(content="""
+                    iframe, [id*='ads'], [class*='ads'], .banner {
+                        display: none !important;
+                    }
+                """)
         yield page

@@ -42,14 +42,14 @@ class Form:
                     else:
                         pass
             else:
-                if form_field_wrapper.locator("xpath=//input").count() > 0:
+                if form_field_wrapper.locator("xpath=.//input").count() > 0:
                     input_locator = form_field_wrapper.locator("xpath=.//input")
                     if isinstance(self.data[wrapper_label],list):
                         for data in self.data[wrapper_label]:
                             self.fillInputorTextarea(data, "", input_locator,True)
                     else:
                         self.fillInputorTextarea(self.data[wrapper_label], "", input_locator, wrapper_label=='Date of Birth')
-                elif form_field_wrapper.locator("xpath=//textarea").count() > 0:
+                elif form_field_wrapper.locator("xpath=.//textarea").count() > 0:
                     input_locator = form_field_wrapper.locator("xpath=.//textarea")
                     self.fillInputorTextarea(self.data[wrapper_label], "", input_locator)
                 elif form_field_wrapper.locator("xpath=//select").count() > 0:
