@@ -4,7 +4,7 @@ import pytest
 from Playwright.Form import Form
 
 
-@pytest.mark.parametrize('page_setup', ['Text Box'], indirect=True)
+@pytest.mark.parametrize('page_setup', [('Elements','Text Box')], indirect=True)
 class Test_Textbox:
     cases = [
         {},

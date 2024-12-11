@@ -3,7 +3,7 @@ import pytest
 from Playwright.Utils import Utils
 
 
-@pytest.mark.parametrize("page_setup",["Radio Button"],indirect=True)
+@pytest.mark.parametrize("page_setup",[('Elements',"Radio Button")],indirect=True)
 class Test_RadioButton:
     cases = [
         [],

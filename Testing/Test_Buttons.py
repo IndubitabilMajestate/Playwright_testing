@@ -3,7 +3,7 @@ import pytest
 from Playwright.Utils import Utils
 
 
-@pytest.mark.parametrize('page_setup',['Buttons'],indirect=True)
+@pytest.mark.parametrize('page_setup',[('Elements','Buttons')],indirect=True)
 class Test_Buttons:
     cases = [
         [],

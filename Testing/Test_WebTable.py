@@ -7,7 +7,7 @@ from Playwright.Utils import Utils
 from Playwright.WebTable import Webtable
 
 
-@pytest.mark.parametrize('page_setup',['Web Tables'],indirect=True)
+@pytest.mark.parametrize('page_setup',[('Elements','Web Tables')],indirect=True)
 class Test_WebTable:
 
     @pytest.fixture(scope='class')
